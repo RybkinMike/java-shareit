@@ -1,5 +1,8 @@
 package ru.practicum.shareit.item.model;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.exception.NotFoundException;
@@ -8,10 +11,12 @@ import java.util.*;
 
 @Component
 @Slf4j
+@FieldDefaults(makeFinal=true, level= AccessLevel.PRIVATE)
 public class ItemRepositoryImpl implements ItemRepository {
-    private final Map<Long, List<Item>> items = new HashMap<>();
-    private long counter = 0L;
-    private final ItemMapper itemMapper = new ItemMapper();
+    Map<Long, List<Item>> items = new HashMap<>();
+    @NonFinal
+    long counter = 0L;
+    ItemMapper itemMapper = new ItemMapper();
 
     @Override
     public List<Item> findByUserId(long userId) {
@@ -27,7 +32,7 @@ public class ItemRepositoryImpl implements ItemRepository {
                 }
             }
         }
-       throw new NotFoundException("Вещь с ID = " + id + "не найдена");
+       throw new NotFoundException(String.format("Вещь с ID =%d не найдена", id));
     }
 
     @Override

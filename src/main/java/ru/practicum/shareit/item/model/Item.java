@@ -1,19 +1,22 @@
 package ru.practicum.shareit.item.model;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Objects;
 
 @Data
 @AllArgsConstructor
+@FieldDefaults(level= AccessLevel.PRIVATE)
 public class Item {
-    private Long id;
-    private String name;
-    private String description;
-    private Long count;
-    private Long ownerId;
-    private Boolean available;
+    Long id;
+    String name;
+    String description;
+    Long count;
+    Long ownerId;
+    Boolean available;
 
     @Override
     public boolean equals(Object o) {

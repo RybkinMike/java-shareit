@@ -1,6 +1,8 @@
 package ru.practicum.shareit.item.model;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
@@ -14,11 +16,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public
-class ItemServiceImpl implements ItemService {
-    private final ItemRepository repository;
-    private final UserRepository userRepository;
-    private final ItemMapper itemMapper = new ItemMapper();
+@FieldDefaults(makeFinal=true, level= AccessLevel.PRIVATE)
+public class ItemServiceImpl implements ItemService {
+    ItemRepository repository;
+    UserRepository userRepository;
+    ItemMapper itemMapper = new ItemMapper();
 
     @Override
     public Collection<Item> getItems(long userId) {

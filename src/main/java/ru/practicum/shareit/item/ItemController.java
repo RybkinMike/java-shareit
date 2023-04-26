@@ -15,9 +15,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemController {
     private final ItemService itemService;
+    private final static String USERID = "X-Sharer-User-Id";
 
     @GetMapping
-    public Collection<Item> get(@RequestHeader("X-Sharer-User-Id") long userId) {
+    public Collection<Item> get(@RequestHeader(USERID) long userId) {
         return itemService.getItems(userId);
     }
 
@@ -32,20 +33,20 @@ public class ItemController {
     }
 
     @PostMapping
-    public Item add(@RequestHeader("X-Sharer-User-Id") long userId,
+    public Item add(@RequestHeader(USERID) long userId,
                     @RequestBody @Valid ItemDto itemDto) throws ValidationException {
         return itemService.addNewItem(userId, itemDto);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto update(@RequestHeader("X-Sharer-User-Id") Long userId,
+    public ItemDto update(@RequestHeader(USERID) Long userId,
                           @RequestBody ItemDto itemDto,
                           @PathVariable long itemId) {
         return itemService.updateItem(userId, itemDto, itemId);
     }
 
     @DeleteMapping("/{itemId}")
-    public void deleteItem(@RequestHeader("X-Sharer-User-Id") long userId,
+    public void deleteItem(@RequestHeader(USERID) long userId,
                            @PathVariable long itemId) {
         itemService.deleteItem(userId, itemId);
     }
