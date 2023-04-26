@@ -11,7 +11,7 @@ import java.util.*;
 
 @Component
 @Slf4j
-@FieldDefaults(makeFinal=true, level= AccessLevel.PRIVATE)
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class ItemRepositoryImpl implements ItemRepository {
     Map<Long, List<Item>> items = new HashMap<>();
     @NonFinal

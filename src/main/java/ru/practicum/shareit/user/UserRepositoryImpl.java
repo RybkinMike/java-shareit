@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@FieldDefaults(level= AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserRepositoryImpl implements UserRepository {
     final List<User> users = new ArrayList<>();
     long counter = 0L;

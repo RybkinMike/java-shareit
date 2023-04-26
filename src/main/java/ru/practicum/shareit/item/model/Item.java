@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Data
 @AllArgsConstructor
-@FieldDefaults(level= AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Item {
     Long id;
     String name;

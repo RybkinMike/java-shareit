@@ -1,6 +1,8 @@
 package ru.practicum.shareit.item;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.item.dto.ItemDto;
@@ -13,9 +15,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/items")
 @RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class ItemController {
-    private final ItemService itemService;
-    private final static String USERID = "X-Sharer-User-Id";
+    ItemService itemService;
+    static final String USERID = "X-Sharer-User-Id";
 
     @GetMapping
     public Collection<Item> get(@RequestHeader(USERID) long userId) {
