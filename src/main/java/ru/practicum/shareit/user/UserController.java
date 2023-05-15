@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.exception.ItemAlreadyExistException;
 import ru.practicum.shareit.exception.ValidationException;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -45,5 +44,4 @@ public class UserController {
     public void delete(@PathVariable long userId) {
         userService.delete(userId);
     }
-
 }

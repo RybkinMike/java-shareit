@@ -1,21 +1,37 @@
 package ru.practicum.shareit.item.model;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
+import ru.practicum.shareit.user.User;
 
+import javax.persistence.*;
 import java.util.Objects;
 
-@Data
-@AllArgsConstructor
+
+@Entity
+@Table(name = "items")
+@Getter
+@Setter
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Item {
-    Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long id;
+
+    @Column
     String name;
+
+    @Column
     String description;
-    Long count;
-    Long ownerId;
+
+    @Column
+    long count;
+
+    @ManyToOne
+    private User user;
+
+    @Column
     Boolean available;
 
     @Override
@@ -23,11 +39,11 @@ public class Item {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Item item = (Item) o;
-        return Objects.equals(id, item.id) && Objects.equals(name, item.name) && Objects.equals(description, item.description) && Objects.equals(count, item.count) && Objects.equals(ownerId, item.ownerId) && Objects.equals(available, item.available);
+        return Objects.equals(id, item.id) && Objects.equals(name, item.name) && Objects.equals(description, item.description) && Objects.equals(count, item.count) && Objects.equals(user, item.user) && Objects.equals(available, item.available);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, count, ownerId, available);
+        return Objects.hash(id, name, description, count, user, available);
     }
 }

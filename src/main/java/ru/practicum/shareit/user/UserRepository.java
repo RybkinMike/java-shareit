@@ -1,18 +1,11 @@
 package ru.practicum.shareit.user;
 
-import ru.practicum.shareit.exception.ItemAlreadyExistException;
-import ru.practicum.shareit.exception.ValidationException;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
-import java.util.List;
+public interface UserRepository extends JpaRepository<User, Long> {
 
-public interface UserRepository {
-    List<User> findAll();
+    Optional<User> findById(long id);
 
-    User save(User user) throws ItemAlreadyExistException;
-
-    User update(User user) throws ValidationException;
-
-    User findById(Long id);
-
-    void delete(long userId);
+    void deleteById(long userId);
 }
