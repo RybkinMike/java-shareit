@@ -5,7 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.exception.ValidationException;
 import java.util.List;
-import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface BookingService {
