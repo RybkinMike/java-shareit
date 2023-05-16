@@ -24,12 +24,4 @@ public interface BookingService {
 
     @Transactional
     Booking addNewBooking(long userId, BookingDto bookingDto) throws ValidationException;
-
-    Optional<Booking> findFirstByItemIdAndStartBeforeAndStatusOrderByStartDesc(long itemId);
-
-    @Transactional
-    Optional<Booking> findFirstByItemIdAndEndAfterAndStatusOrderByStartAsc(long itemId);
-
-    @Transactional
-    List<Booking> getBookingByUserIdAndFinishAfterNow(long userId);
 }

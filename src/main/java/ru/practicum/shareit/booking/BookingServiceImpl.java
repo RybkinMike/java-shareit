@@ -122,22 +122,4 @@ public class BookingServiceImpl implements BookingService {
         repository.save(booking);
         return booking;
     }
-
-    @Transactional
-    @Override
-    public Optional<Booking> findFirstByItemIdAndStartBeforeAndStatusOrderByStartDesc(long itemId) {
-        return repository.findFirstByItemIdAndStartBeforeAndStatusOrderByStartDesc(itemId, LocalDateTime.now(), "APPROVED");
-    }
-
-    @Transactional
-    @Override
-    public Optional<Booking> findFirstByItemIdAndEndAfterAndStatusOrderByStartAsc(long itemId) {
-        return repository.findFirstByItemIdAndEndAfterAndStatusOrderByStartAsc(itemId, LocalDateTime.now(), "APPROVED");
-    }
-
-    @Override
-    public List<Booking> getBookingByUserIdAndFinishAfterNow(long userId) {
-        return repository.getBookingByUserIdAndFinishAfterNow(userId);
-    }
-
 }
