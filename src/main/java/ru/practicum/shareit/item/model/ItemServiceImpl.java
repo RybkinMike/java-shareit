@@ -78,11 +78,16 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.toEntityWithBooking(item, lastBooking, nextBooking, comments);
     }
 
+    @Override
+    public Item getItemById(long itemId) {
+        return repository.findById(itemId)
+                .orElseThrow(() -> new NotFoundException(String.format("Вещь с ID =%d не найден", itemId)));
+    }
+
     @Transactional
     @Override
     public ItemDto updateItem(long userId, ItemDto itemDto, long itemId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        validateUserId(userId);
         Item item = repository.findById(itemId).get();
         if (itemDto.getName() != null) {
                         item.setName(itemDto.getName());
@@ -126,6 +131,7 @@ public class ItemServiceImpl implements ItemService {
         for (Booking booking: bookings) {
             if (booking.getItem().getId() == itemId) {
                 userIsBooker = true;
+                break;
             }
         }
         if (userIsBooker) {

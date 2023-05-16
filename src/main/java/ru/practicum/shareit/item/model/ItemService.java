@@ -15,6 +15,8 @@ public interface ItemService {
 
     ItemWithBooking getItemById(long userId, long itemId);
 
+    Item getItemById(long itemId);
+
     @Transactional
     ItemDto updateItem(long userId, ItemDto itemDto, long itemId);
 

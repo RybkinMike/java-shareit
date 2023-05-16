@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.exception.ValidationException;
 import java.util.List;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface BookingService {
@@ -24,4 +25,11 @@ public interface BookingService {
     @Transactional
     Booking addNewBooking(long userId, BookingDto bookingDto) throws ValidationException;
 
+    Optional<Booking> findFirstByItemIdAndStartBeforeAndStatusOrderByStartDesc(long itemId);
+
+    @Transactional
+    Optional<Booking> findFirstByItemIdAndEndAfterAndStatusOrderByStartAsc(long itemId);
+
+    @Transactional
+    List<Booking> getBookingByUserIdAndFinishAfterNow(long userId);
 }

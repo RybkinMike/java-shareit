@@ -99,6 +99,4 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "and b.start > current_timestamp " +
             "order by b.start desc")
     List<Booking> getBookingByOwnerIdAndStarBeforeNow(long userId);
-
-//    List<Booking> findByItemId(long itemId);
 }

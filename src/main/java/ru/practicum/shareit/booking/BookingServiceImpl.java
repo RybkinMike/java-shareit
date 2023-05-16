@@ -10,11 +10,13 @@ import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.item.model.ItemRepository;
+import ru.practicum.shareit.item.model.ItemService;
 import ru.practicum.shareit.user.User;
-import ru.practicum.shareit.user.UserRepository;
+import ru.practicum.shareit.user.UserService;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -22,10 +24,9 @@ import java.util.List;
 @Slf4j
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class BookingServiceImpl implements BookingService {
+    ItemService itemService;
 
-    ItemRepository itemRepository;
-
-    UserRepository userRepository;
+    UserService userService;
 
     BookingRepository repository;
 
@@ -33,8 +34,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking getBookingById(long userId, long bookingId) {
-        userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        userService.getById(userId);
         Booking  booking = repository.findById(bookingId).orElseThrow(() -> new NotFoundException(String.format("Бронь с ID =%d не найден", bookingId)));
         User user = booking.getBooker();
         User owner = booking.getItem().getUser();
@@ -46,8 +46,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<Booking> getByUserId(long userId, String state) throws ValidationException {
-        userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        userService.getById(userId);
         switch (state) {
             case "ALL":
                 return repository.findByUserId(userId);
@@ -66,8 +65,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<Booking> getByOwnerId(long userId, String state) throws ValidationException {
-        userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        userService.getById(userId);
         switch (state) {
             case "ALL":
                 return repository.findByOwnerId(userId);
@@ -87,8 +85,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     @Override
     public Booking approveBooking(long userId, long bookingId, boolean approve) throws ValidationException {
-        userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+        userService.getById(userId);
         Booking  booking = repository.findById(bookingId).orElseThrow(() -> new NotFoundException(String.format("Бронь с ID =%d не найден", bookingId)));
         if (booking.getStatus().equals("APPROVED")) {
             throw new ValidationException(String.format("Бронь с ID =%d уже подтверждена", bookingId));
@@ -112,10 +109,8 @@ public class BookingServiceImpl implements BookingService {
         if (!bookingDto.getStart().isBefore(bookingDto.getEnd())) {
             throw new ValidationException("Окончание бронирования должно быть после его начала");
         }
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User not found"));
-        Item item = itemRepository.findById(bookingDto.getItemId())
-                .orElseThrow(() -> new NotFoundException("Item not found"));
+        User user = userService.getById(userId);
+        Item item = itemService.getItemById(bookingDto.getItemId());
         if (userId == item.getUser().getId()) {
             throw  new NotFoundException(String.format("Пользователь с ID =%d является владельцем вещи", userId));
         }
@@ -127,4 +122,22 @@ public class BookingServiceImpl implements BookingService {
         repository.save(booking);
         return booking;
     }
+
+    @Transactional
+    @Override
+    public Optional<Booking> findFirstByItemIdAndStartBeforeAndStatusOrderByStartDesc(long itemId) {
+        return repository.findFirstByItemIdAndStartBeforeAndStatusOrderByStartDesc(itemId, LocalDateTime.now(), "APPROVED");
+    }
+
+    @Transactional
+    @Override
+    public Optional<Booking> findFirstByItemIdAndEndAfterAndStatusOrderByStartAsc(long itemId) {
+        return repository.findFirstByItemIdAndEndAfterAndStatusOrderByStartAsc(itemId, LocalDateTime.now(), "APPROVED");
+    }
+
+    @Override
+    public List<Booking> getBookingByUserIdAndFinishAfterNow(long userId) {
+        return repository.getBookingByUserIdAndFinishAfterNow(userId);
+    }
+
 }
