@@ -6,19 +6,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
-import ru.practicum.shareit.booking.Booking;
-import ru.practicum.shareit.booking.BookingServiceImpl;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.model.ItemRepository;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
-import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
@@ -72,7 +67,7 @@ class ItemRequestServiceImplTest {
         itemRequests.add(itemRequest);
         int from = 1;
         int size = 10;
-        int pageIndex = from/size;
+        int pageIndex = from / size;
         Sort sortByDate = Sort.by(Sort.Direction.ASC, "created");
         Pageable page = PageRequest.of(pageIndex, size, sortByDate);
         Page<ItemRequest> itemRequestPage = new PageImpl<>(itemRequests, page, itemRequests.size());
@@ -82,7 +77,7 @@ class ItemRequestServiceImplTest {
         assertEquals(itemRequests, actualItemRequestList);
 
         assertThrows(ValidationException.class,
-                ()-> itemRequestService.getAllRequest(1L, -1, 10));
+                () -> itemRequestService.getAllRequest(1L, -1, 10));
     }
 
     @Test

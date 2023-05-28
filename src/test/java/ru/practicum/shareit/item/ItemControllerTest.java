@@ -8,13 +8,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.*;
-import ru.practicum.shareit.user.User;
-import ru.practicum.shareit.user.UserController;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

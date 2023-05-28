@@ -72,7 +72,7 @@ class UserServiceImplTest {
         when(userRepository.findById(userToUpdate.getId())).thenReturn(Optional.empty());
 
         assertThrows(NotFoundException.class,
-                ()-> userService.getById(userToUpdate.getId()));
+                () -> userService.getById(userToUpdate.getId()));
 
         verify(userRepository).findById(1L);
         verify(userRepository, never()).save(userToUpdate);
@@ -83,9 +83,9 @@ class UserServiceImplTest {
         long userId = 1L;
         User expectedUser = new User();
         when(userRepository.findById(userId)).thenReturn(Optional.of(expectedUser));
-        
+
         User actualUser = userService.getById(userId);
-        
+
         assertEquals(expectedUser, actualUser);
     }
 
@@ -95,7 +95,7 @@ class UserServiceImplTest {
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
         assertThrows(NotFoundException.class,
-                ()-> userService.getById(userId));
+                () -> userService.getById(userId));
     }
 
     @Test

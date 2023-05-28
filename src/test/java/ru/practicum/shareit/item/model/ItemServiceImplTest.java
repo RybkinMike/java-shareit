@@ -58,7 +58,7 @@ class ItemServiceImplTest {
         long userId = 1L;
         int from = 1;
         int size = 10;
-        int pageIndex = from/size;
+        int pageIndex = from / size;
         Sort sortByDate = Sort.by(Sort.Direction.ASC, "id");
         Pageable page = PageRequest.of(pageIndex, size, sortByDate);
         List<Item> itemList = List.of(item1, item2);
@@ -78,7 +78,7 @@ class ItemServiceImplTest {
     @Test
     void getItemsShouldThrowExceptionTest() throws ValidationException {
         assertThrows(ValidationException.class,
-                ()-> itemService.getItems(1L, -1, 10));
+                () -> itemService.getItems(1L, -1, 10));
     }
 
     @Test
@@ -87,7 +87,7 @@ class ItemServiceImplTest {
         when(userService.getById(1L)).thenThrow(NotFoundException.class);
 
         assertThrows(NotFoundException.class,
-                ()-> itemService.getItems(1L, 1, 10));
+                () -> itemService.getItems(1L, 1, 10));
     }
 
     @Test
@@ -170,7 +170,7 @@ class ItemServiceImplTest {
 
 
         assertThrows(NotFoundException.class,
-                ()-> itemService.updateItem(1L, item1, 1L));
+                () -> itemService.updateItem(1L, item1, 1L));
 
         verify(itemRepository, never()).save(any(Item.class));
     }
@@ -198,7 +198,7 @@ class ItemServiceImplTest {
         Item item = itemMapper.toEntity(user, itemDto);
 
         assertThrows(ValidationException.class,
-                ()-> itemService.addNewItem(1L, itemDto));
+                () -> itemService.addNewItem(1L, itemDto));
         verify(itemRepository, never()).save(any(Item.class));
 
     }
@@ -221,7 +221,7 @@ class ItemServiceImplTest {
         comment.setCreated(LocalDateTime.now());
         comment.setItem(item);
         comment.setAuthorName("USER");
-        when(bookingRepository.getBookingByBookerIdAndItemIdAndEndBeforeOrderByStartDesc(anyLong(), anyLong(), any( LocalDateTime.class))).thenReturn(bookings);
+        when(bookingRepository.getBookingByBookerIdAndItemIdAndEndBeforeOrderByStartDesc(anyLong(), anyLong(), any(LocalDateTime.class))).thenReturn(bookings);
         when(itemRepository.findById(1L)).thenReturn(Optional.of(item));
         when(userService.getById(1L)).thenReturn(user);
         when(commentRepository.save(comment)).thenReturn(comment);
@@ -245,7 +245,7 @@ class ItemServiceImplTest {
         comment.setAuthorName("USER");
 
         assertThrows(ValidationException.class,
-                ()-> itemService.addNewComment(1L, comment, 1L));
+                () -> itemService.addNewComment(1L, comment, 1L));
         verify(commentRepository, never()).save(any(Comment.class));
     }
 
@@ -261,10 +261,10 @@ class ItemServiceImplTest {
         comment.setCreated(LocalDateTime.now());
         comment.setItem(item);
         comment.setAuthorName("USER");
-        when(bookingRepository.getBookingByBookerIdAndItemIdAndEndBeforeOrderByStartDesc(anyLong(), anyLong(), any( LocalDateTime.class))).thenReturn(bookings);
+        when(bookingRepository.getBookingByBookerIdAndItemIdAndEndBeforeOrderByStartDesc(anyLong(), anyLong(), any(LocalDateTime.class))).thenReturn(bookings);
 
         assertThrows(NotFoundException.class,
-                ()-> itemService.addNewComment(1L, comment, 1L));
+                () -> itemService.addNewComment(1L, comment, 1L));
         verify(commentRepository, never()).save(any(Comment.class));
     }
 
@@ -297,7 +297,7 @@ class ItemServiceImplTest {
         itemsDto.add(itemMapper.toDto(item));
 
         assertThrows(ValidationException.class,
-                ()-> itemService.getItemByQuery(query, -1, 5));
+                () -> itemService.getItemByQuery(query, -1, 5));
     }
 
     @Test

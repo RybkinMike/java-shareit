@@ -70,7 +70,7 @@ class BookingServiceImplTest {
         when(bookingRepository.findById(1L)).thenReturn(Optional.of(booking));
 
         assertThrows(NotFoundException.class,
-                ()-> bookingService.getBookingById(1L, 1L));
+                () -> bookingService.getBookingById(1L, 1L));
     }
 
     @Test
@@ -80,7 +80,7 @@ class BookingServiceImplTest {
         bookings.add(booking);
         int from = 1;
         int size = 10;
-        int pageIndex = from/size;
+        int pageIndex = from / size;
         Sort sortByDate = Sort.by(Sort.Direction.ASC, "id");
         Pageable page = PageRequest.of(pageIndex, size, sortByDate);
         Page<Booking> bookingPage = new PageImpl<>(bookings, page, bookings.size());
@@ -101,7 +101,7 @@ class BookingServiceImplTest {
         List<Booking> actualBookingListWaiting = bookingService.getByUserId(1L, "WAITING", 1, 10);
         assertEquals(bookings, actualBookingListWaiting);
         assertThrows(ValidationException.class,
-                ()-> bookingService.getByUserId(1L, "WRONG", 1, 10));
+                () -> bookingService.getByUserId(1L, "WRONG", 1, 10));
     }
 
     @Test
@@ -111,7 +111,7 @@ class BookingServiceImplTest {
         bookings.add(booking);
         int from = 1;
         int size = 10;
-        int pageIndex = from/size;
+        int pageIndex = from / size;
         Sort sortByDate = Sort.by(Sort.Direction.ASC, "id");
         Pageable page = PageRequest.of(pageIndex, size, sortByDate);
         Page<Booking> bookingPage = new PageImpl<>(bookings, page, bookings.size());
@@ -132,7 +132,7 @@ class BookingServiceImplTest {
         List<Booking> actualBookingListWaiting = bookingService.getByOwnerId(1L, "WAITING", 1, 10);
         assertEquals(bookings, actualBookingListWaiting);
         assertThrows(ValidationException.class,
-                ()-> bookingService.getByOwnerId(1L, "WRONG", 1, 10));
+                () -> bookingService.getByOwnerId(1L, "WRONG", 1, 10));
     }
 
     @Test
@@ -187,7 +187,7 @@ class BookingServiceImplTest {
         when(bookingRepository.findById(anyLong())).thenReturn(Optional.of(booking));
 
         assertThrows(NotFoundException.class,
-                ()-> bookingService.approveBooking(2L, 1L, true));
+                () -> bookingService.approveBooking(2L, 1L, true));
 
         verify(bookingRepository, never()).save(any(Booking.class));
     }
@@ -204,7 +204,7 @@ class BookingServiceImplTest {
         when(bookingRepository.findById(anyLong())).thenReturn(Optional.of(booking));
 
         assertThrows(ValidationException.class,
-                ()-> bookingService.approveBooking(1L, 1L, true));
+                () -> bookingService.approveBooking(1L, 1L, true));
 
         verify(bookingRepository, never()).save(any(Booking.class));
     }
@@ -252,7 +252,7 @@ class BookingServiceImplTest {
         booking.setStatus("WAITING");
 
         assertThrows(ValidationException.class,
-                ()-> bookingService.addNewBooking(1L, bookingDto));
+                () -> bookingService.addNewBooking(1L, bookingDto));
 
         verify(bookingRepository, never()).save(any(Booking.class));
     }
@@ -277,7 +277,7 @@ class BookingServiceImplTest {
         when(itemService.getItemById(1L)).thenReturn(item);
 
         assertThrows(NotFoundException.class,
-                ()-> bookingService.addNewBooking(1L, bookingDto));
+                () -> bookingService.addNewBooking(1L, bookingDto));
 
         verify(bookingRepository, never()).save(any(Booking.class));
     }
@@ -302,7 +302,7 @@ class BookingServiceImplTest {
         when(itemService.getItemById(1L)).thenReturn(item);
 
         assertThrows(ValidationException.class,
-                ()-> bookingService.addNewBooking(1L, bookingDto));
+                () -> bookingService.addNewBooking(1L, bookingDto));
 
         verify(bookingRepository, never()).save(any(Booking.class));
     }

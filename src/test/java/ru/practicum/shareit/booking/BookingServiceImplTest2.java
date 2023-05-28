@@ -31,6 +31,7 @@ class BookingServiceImplTest2 {
     private final UserService userService;
     private final ItemService itemService;
     private final BookingService bookingService;
+
     @Test
     void approveBooking() throws ValidationException {
         User user = new User();
