@@ -26,13 +26,4 @@ public class ErrorHandler {
                 e.getMessage()
         );
     }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleItemAlreadyExistException(final ItemAlreadyExistException e) {
-        log.info("409 {}", e.getMessage());
-        return new ErrorResponse(
-                e.getMessage()
-        );
-    }
 }
