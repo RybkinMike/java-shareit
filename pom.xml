@@ -184,6 +184,7 @@
 							<exclude>**/*QItemRequest.class</exclude>
 							<exclude>**/*QComment.class</exclude>
 							<exclude>**/*ErrorResponse.class</exclude>
+							<exclude>**/*ShareItApp.class</exclude>
 						</excludes>
 					</configuration>
 					<executions>
