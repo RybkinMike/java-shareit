@@ -13,10 +13,10 @@ public interface BookingService {
     Booking getBookingById(long userId, long bookingId);
 
     @Transactional(readOnly = true)
-    List<Booking> getByUserId(long userId, String state) throws ValidationException;
+    List<Booking> getByUserId(long userId, String state, int from, int size) throws ValidationException;
 
     @Transactional(readOnly = true)
-    List<Booking> getByOwnerId(long userId, String state) throws ValidationException;
+    List<Booking> getByOwnerId(long userId, String state, int from, int size) throws ValidationException;
 
     @Transactional
     Booking approveBooking(long userId, long bookingId, boolean approve) throws ValidationException;

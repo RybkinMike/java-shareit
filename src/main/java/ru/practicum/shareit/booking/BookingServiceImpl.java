@@ -4,6 +4,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dto.BookingDto;
@@ -42,39 +45,51 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Booking> getByUserId(long userId, String state) throws ValidationException {
+    public List<Booking> getByUserId(long userId, String state, int from, int size) throws ValidationException {
         userService.getById(userId);
+        if (from < 0) {
+            throw new ValidationException("from is negative");
+        }
+        Sort sortByDate = Sort.by(Sort.Direction.ASC, "start");
+        int pageIndex = from / size;
+        Pageable page = PageRequest.of(pageIndex, size, sortByDate);
         switch (state) {
             case "ALL":
-                return repository.findByUserId(userId);
+                return repository.getByBookerIdOrderByStartDesc(userId, page).toList();
             case "CURRENT":
-                return repository.getCurrentByUserId(userId);
+                return repository.getCurrentByUserId(userId, page).toList();
             case "PAST":
-                return repository.getBookingByUserIdAndFinishAfterNow(userId);
+                return repository.getBookingByUserIdAndFinishAfterNow(userId, page).toList();
             case "FUTURE":
-                return repository.getBookingByUserIdAndStarBeforeNow(userId);
+                return repository.getBookingByUserIdAndStarBeforeNow(userId, page).toList();
             case "WAITING":
             case "REJECTED":
-                return repository.getBookingByUserIdAndByStatusContainingIgnoreCase(userId, state);
+                return repository.getByBookerIdAndStatusContainingIgnoreCaseOrderByStartDesc(userId, state, page).toList();
         }
         throw new ValidationException("Unknown state: UNSUPPORTED_STATUS");
     }
 
     @Override
-    public List<Booking> getByOwnerId(long userId, String state) throws ValidationException {
+    public List<Booking> getByOwnerId(long userId, String state, int from, int size) throws ValidationException {
         userService.getById(userId);
+        if (from < 0) {
+            throw new ValidationException("from is negative");
+        }
+        Sort sortByDate = Sort.by(Sort.Direction.ASC, "start");
+        int pageIndex = from / size;
+        Pageable page = PageRequest.of(pageIndex, size, sortByDate);
         switch (state) {
             case "ALL":
-                return repository.findByOwnerId(userId);
+                return repository.findByOwnerId(userId, page).toList();
             case "CURRENT":
-                return repository.getCurrentByOwnerId(userId);
+                return repository.getCurrentByOwnerId(userId, page).toList();
             case "PAST":
-                return repository.getPastByOwnerId(userId);
+                return repository.getPastByOwnerId(userId, page).toList();
             case "FUTURE":
-                return repository.getBookingByOwnerIdAndStarBeforeNow(userId);
+                return repository.getBookingByOwnerIdAndStarBeforeNowOrderByStartDesc(userId, page).toList();
             case "WAITING":
             case "REJECTED":
-                return repository.getBookingByOwnerIdAndByStatusContainingIgnoreCase(userId, state);
+                return repository.getBookingByOwnerIdAndByStatusContainingIgnoreCase(userId, state, page).toList();
         }
         throw new ValidationException("Unknown state: UNSUPPORTED_STATUS");
     }
@@ -89,7 +104,7 @@ public class BookingServiceImpl implements BookingService {
         }
         User owner = booking.getItem().getUser();
         if (userId != (owner.getId())) {
-            throw new NotFoundException(String.format("Пользователь с ID =%d не является ни создателем брони, ни владельцем вещи", userId));
+            throw new NotFoundException(String.format("Пользователь с ID =%d не является владельцем вещи", userId));
         }
         if (approve) {
             booking.setStatus("APPROVED");

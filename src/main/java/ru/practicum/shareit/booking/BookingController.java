@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.exception.ValidationException;
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 
@@ -27,14 +29,18 @@ public class BookingController {
 
     @GetMapping
     public List<Booking> getByUserId(@RequestHeader(USERID) long userId,
-                                     @RequestParam(defaultValue = "ALL") String state) throws ValidationException {
-        return bookingService.getByUserId(userId, state);
+                                     @RequestParam(defaultValue = "ALL") String state,
+                                     @RequestParam(value = "from", defaultValue = "0")@Min(0) int from,
+                                     @RequestParam(value = "size", defaultValue = "10")@Min(1) @Max(100) int size) throws ValidationException {
+        return bookingService.getByUserId(userId, state, from, size);
     }
 
     @GetMapping("/owner")
     public List<Booking> getByOwnerId(@RequestHeader(USERID) long userId,
-                                      @RequestParam(defaultValue = "ALL") String state) throws ValidationException {
-        return bookingService.getByOwnerId(userId, state);
+                                      @RequestParam(defaultValue = "ALL") String state,
+                                      @RequestParam(value = "from", defaultValue = "0")@Min(0) int from,
+                                      @RequestParam(value = "size", defaultValue = "10")@Min(1) @Max(100) int size) throws ValidationException {
+        return bookingService.getByOwnerId(userId, state, from, size);
     }
 
     @PatchMapping("/{bookingId}")
@@ -46,7 +52,7 @@ public class BookingController {
 
     @PostMapping
     public Booking add(@RequestHeader(USERID) long userId,
-                    @RequestBody @Valid BookingDto bookingDto) throws ValidationException {
+                       @RequestBody @Valid BookingDto bookingDto) throws ValidationException {
         return bookingService.addNewBooking(userId, bookingDto);
     }
 }
