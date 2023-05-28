@@ -2,7 +2,6 @@ package ru.practicum.shareit.user;
 
 import ru.practicum.shareit.exception.ItemAlreadyExistException;
 import ru.practicum.shareit.exception.ValidationException;
-
 import java.util.List;
 
 public interface UserService {
