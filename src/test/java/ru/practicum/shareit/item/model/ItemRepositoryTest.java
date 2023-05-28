@@ -12,22 +12,22 @@ class ItemRepositoryTest {
     private ItemRepository itemRepository;
 
     @Test
-    void findByUserId() {
+    void findByUserIdTest() {
     }
 
     @Test
-    void findById() {
+    void findByIdTest() {
     }
 
     @Test
-    void deleteByUserIdAndId() {
+    void deleteByUserIdAndIdTest() {
     }
 
     @Test
-    void getItemByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase() {
+    void getItemByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseTest() {
     }
 
     @Test
-    void findByRequestId() {
+    void findByRequestIdTest() {
     }
 }

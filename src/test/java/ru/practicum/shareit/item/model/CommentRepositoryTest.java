@@ -11,6 +11,6 @@ class CommentRepositoryTest {
     private CommentRepository commentRepository;
 
     @Test
-    void findAllByItemId() {
+    void findAllByItemIdTest() {
     }
 }

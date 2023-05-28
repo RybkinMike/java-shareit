@@ -13,10 +13,10 @@ class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    void findById() {
+    void findByIdTest() {
     }
 
     @Test
-    void deleteById() {
+    void deleteByIdTest() {
     }
 }

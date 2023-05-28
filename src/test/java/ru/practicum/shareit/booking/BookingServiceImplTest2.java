@@ -33,7 +33,7 @@ class BookingServiceImplTest2 {
     private final BookingService bookingService;
 
     @Test
-    void approveBooking() throws ValidationException {
+    void approveBookingTest() throws ValidationException {
         User user = new User();
         user.setEmail("1@1.ru");
         user.setName("1");

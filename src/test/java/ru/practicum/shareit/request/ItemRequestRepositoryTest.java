@@ -13,10 +13,10 @@ class ItemRequestRepositoryTest {
     private ItemRequestRepository itemRequestRepository;
 
     @Test
-    void findById() {
+    void findByIdTest() {
     }
 
     @Test
-    void findByUserId() {
+    void findByUserIdTest() {
     }
 }

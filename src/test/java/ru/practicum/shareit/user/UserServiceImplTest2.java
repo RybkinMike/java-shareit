@@ -22,7 +22,7 @@ class UserServiceImplTest2 {
     private final UserService service;
 
     @Test
-    void saveUser() {
+    void saveUserTest() {
     User user = new User();
     user.setEmail("1@1.ru");
     user.setName("1");

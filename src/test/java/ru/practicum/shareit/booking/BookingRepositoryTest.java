@@ -103,27 +103,27 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findById() {
+    void findByIdTest() {
     }
 
     @Test
-    void findFirstByItemIdAndStartBeforeAndStatusOrderByStartDesc() {
+    void findFirstByItemIdAndStartBeforeAndStatusOrderByStartDescTest() {
     }
 
     @Test
-    void findFirstByItemIdAndEndAfterAndStatusOrderByStartAsc() {
+    void findFirstByItemIdAndEndAfterAndStatusOrderByStartAscTest() {
     }
 
     @Test
-    void getByBookerIdOrderByStartDesc() {
+    void getByBookerIdOrderByStartDescTest() {
     }
 
     @Test
-    void getByBookerIdAndStatusContainingIgnoreCaseOrderByStartDesc() {
+    void getByBookerIdAndStatusContainingIgnoreCaseOrderByStartDescTest() {
     }
 
     @Test
-    void getCurrentByUserId() {
+    void getCurrentByUserIdTest() {
         List<Booking> bookings = bookingRepository.getCurrentByUserId(2L, page).toList();
 
         assertFalse(bookings.isEmpty());
@@ -132,7 +132,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void getBookingByUserIdAndFinishAfterNow() {
+    void getBookingByUserIdAndFinishAfterNowTest() {
         List<Booking> bookings = bookingRepository.getBookingByUserIdAndFinishAfterNow(1L, page).toList();
 
         assertFalse(bookings.isEmpty());
@@ -140,7 +140,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void getBookingByUserIdAndStarBeforeNow() {
+    void getBookingByUserIdAndStarBeforeNowTest() {
         List<Booking> bookings = bookingRepository.getBookingByUserIdAndStarBeforeNow(3L, page).toList();
 
         assertFalse(bookings.isEmpty());
@@ -148,7 +148,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void findByOwnerId() {
+    void findByOwnerIdTest() {
         List<Booking> bookings = bookingRepository.findByOwnerId(3L, page).toList();
 
         assertFalse(bookings.isEmpty());
@@ -156,7 +156,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void getBookingByOwnerIdAndByStatusContainingIgnoreCase() {
+    void getBookingByOwnerIdAndByStatusContainingIgnoreCaseTest() {
         List<Booking> bookings = bookingRepository.getBookingByOwnerIdAndByStatusContainingIgnoreCase(3L, "WAITING", page).toList();
 
         assertFalse(bookings.isEmpty());
@@ -164,7 +164,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void getCurrentByOwnerId() {
+    void getCurrentByOwnerIdTest() {
         List<Booking> bookings = bookingRepository.getCurrentByUserId(2L, page).toList();
 
         assertFalse(bookings.isEmpty());
@@ -173,7 +173,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void getPastByOwnerId() {
+    void getPastByOwnerIdTest() {
         List<Booking> bookings = bookingRepository.getPastByOwnerId(1L, page).toList();
 
         assertFalse(bookings.isEmpty());
@@ -181,7 +181,7 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void getBookingByOwnerIdAndStarBeforeNowOrderByStartDesc() {
+    void getBookingByOwnerIdAndStarBeforeNowOrderByStartDescTest() {
         List<Booking> bookings = bookingRepository.getBookingByUserIdAndStarBeforeNow(3L, page).toList();
 
         assertFalse(bookings.isEmpty());
@@ -189,6 +189,6 @@ class BookingRepositoryTest {
     }
 
     @Test
-    void getBookingByBookerIdAndItemIdAndEndBeforeOrderByStartDesc() {
+    void getBookingByBookerIdAndItemIdAndEndBeforeOrderByStartDescTest() {
     }
 }
