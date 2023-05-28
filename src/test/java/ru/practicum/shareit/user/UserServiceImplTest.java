@@ -49,8 +49,8 @@ class UserServiceImplTest {
     void updateTest() throws ValidationException {
         User userToUpdate = new User();
         userToUpdate.setId(1L);
-        userToUpdate.setName("UserToUpdate");
-        userToUpdate.setEmail("email@UPD.ru");
+//        userToUpdate.setName("UserToUpdate");
+//        userToUpdate.setEmail("email@UPD.ru");
         User userInDB = new User();
         userInDB.setId(1L);
         when(userRepository.findById(1L)).thenReturn(Optional.of(userInDB));

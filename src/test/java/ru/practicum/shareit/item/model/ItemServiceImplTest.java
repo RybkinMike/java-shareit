@@ -205,13 +205,37 @@ class ItemServiceImplTest {
 
     @Test
     void deleteItemTest() {
-        itemRepository.deleteByUserIdAndId(1L, 1L);
+        User owner = new User();
+        owner.setId(1L);
+        Item item = new Item();
+        item.setId(1L);
+        item.setUser(owner);
+        when(itemRepository.findById(1L)).thenReturn(Optional.of(item));
+
+        itemService.deleteItem(1L, 1L);
         verify(itemRepository).deleteByUserIdAndId(anyLong(), anyLong());
+    }
+
+    @Test
+    void deleteItemTestShouldThrowException() {
+        User owner = new User();
+        owner.setId(1L);
+        Item item = new Item();
+        item.toString();
+        item.setId(1L);
+        item.setUser(owner);
+        when(itemRepository.findById(1L)).thenReturn(Optional.of(item));
+
+        assertThrows(NotFoundException.class,
+                () -> itemService.deleteItem(2L, 1L));
+
+        verify(itemRepository, never()).deleteByUserIdAndId(anyLong(), anyLong());
     }
 
     @Test
     void addNewCommentTest() throws ValidationException {
         Comment comment = new Comment();
+        comment.toString();
         User user = new User();
         user.setName("USER");
         Item item = new Item();
@@ -307,6 +331,8 @@ class ItemServiceImplTest {
         items.add(item);
         List<ItemWithBooking> itemsWithBooking = new ArrayList<>();
         ItemWithBooking itemWithBooking = itemMapper.toEntityWithBooking(item, null, null, null);
+        itemWithBooking.toString();
+        itemWithBooking.hashCode();
         List<Comment> comments = new ArrayList<>();
         itemWithBooking.setComments(comments);
         itemsWithBooking.add(itemWithBooking);

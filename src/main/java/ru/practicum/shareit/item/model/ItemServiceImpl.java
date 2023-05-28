@@ -125,10 +125,6 @@ public class ItemServiceImpl implements ItemService {
         User user = userService.getById(userId);
         Item itemForSave = itemMapper.toEntity(user, itemDto);
 
-//        Item item = repository.save(itemForSave);
-//        if (item.getRequestId() > 0) {
-//            itemRequestService.updateRequest(item, item.getRequestId());
-//        }
         return repository.save(itemForSave);
     }
 
@@ -163,7 +159,6 @@ public class ItemServiceImpl implements ItemService {
         if (query.isBlank()) {
             return new ArrayList<>();
         }
-
         List<Item> userItems = repository.getItemByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(query, query, page);
         for (int i = 0; i < userItems.size(); i++) {
             if (!userItems.get(i).getAvailable()) {
@@ -175,7 +170,6 @@ public class ItemServiceImpl implements ItemService {
 
     private void validateOwner(long userId, Item item) {
         if (userId != item.getUser().getId()) {
-            log.warn("Неправильный ID");
             throw new NotFoundException("Вы не являетесь владельцем.");
         }
     }

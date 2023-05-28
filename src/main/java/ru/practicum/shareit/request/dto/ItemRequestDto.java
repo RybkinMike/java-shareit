@@ -13,7 +13,6 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ItemRequestDto {
     long id;

@@ -1,5 +1,6 @@
 package ru.practicum.shareit.user;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.shareit.booking.BookingService;
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.item.model.ItemService;
 import ru.practicum.shareit.request.ItemRequestService;
@@ -114,7 +116,7 @@ class UserControllerTest2 {
 
     @SneakyThrows
     @Test
-    void updateTest() throws ValidationException {
+    void updateTest() {
         User user = new User();
         user.setId(1L);
         when(userService.update(anyLong(), any(User.class))).thenReturn(user);
@@ -127,6 +129,21 @@ class UserControllerTest2 {
                 .getContentAsString();
 
         assertEquals(objectMapper.writeValueAsString(user), response);
+    }
+
+    @Test
+    void updateTestShouldThrowException() throws Exception {
+        User user = new User();
+        user.setId(1L);
+        doThrow(ValidationException.class).when(userService).update(anyLong(), any(User.class));
+
+        mockMvc.perform(patch("/users/{userId}", 1L)
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(user)))
+                .andExpect(status().isBadRequest())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
     }
 
     @SneakyThrows

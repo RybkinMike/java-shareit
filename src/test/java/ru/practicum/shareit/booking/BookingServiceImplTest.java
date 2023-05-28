@@ -45,6 +45,8 @@ class BookingServiceImplTest {
         User user = new User();
         user.setId(1L);
         Booking booking = new Booking();
+        booking.toString();
+        booking.hashCode();
         booking.setBooker(user);
         Item item = new Item();
         User owner = new User();

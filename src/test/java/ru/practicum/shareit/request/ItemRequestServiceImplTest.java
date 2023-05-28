@@ -39,6 +39,7 @@ class ItemRequestServiceImplTest {
     void addNewItemRequestTest() throws ValidationException {
         ItemRequestDto requestDto = new ItemRequestDto();
         ItemRequest request = requestMapper.toEntity(1L, requestDto, null);
+        request.toString();
         when(repository.save(any(ItemRequest.class))).thenReturn(request);
 
         ItemRequest actualRequest = itemRequestService.addNewItemRequest(1L, requestDto);
@@ -92,6 +93,5 @@ class ItemRequestServiceImplTest {
         ItemRequest actualItemRequest = itemRequestService.getRequestById(1L, 1L);
 
         assertEquals(itemRequest, actualItemRequest);
-
     }
 }
