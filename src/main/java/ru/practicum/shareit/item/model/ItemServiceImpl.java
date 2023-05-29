@@ -3,8 +3,10 @@ package ru.practicum.shareit.item.model;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.booking.BookingMapper;
 import ru.practicum.shareit.booking.BookingRepository;
@@ -14,14 +16,13 @@ import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import lombok.extern.slf4j.Slf4j;
 import ru.practicum.shareit.user.User;
-import ru.practicum.shareit.user.UserRepository;
+import ru.practicum.shareit.user.UserService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -29,7 +30,7 @@ public class ItemServiceImpl implements ItemService {
 
     ItemRepository repository;
 
-    UserRepository userRepository;
+    UserService userService;
 
     BookingRepository bookingRepository;
 
@@ -40,9 +41,15 @@ public class ItemServiceImpl implements ItemService {
     BookingMapper bookingMapper = new BookingMapper();
 
     @Override
-    public Collection<ItemWithBooking> getItems(long userId) {
+    public Collection<ItemWithBooking> getItems(long userId, int from, int size) {
         validateUserId(userId);
-        return mapToItemWithBooking(repository.findByUserId(userId));
+        if (from < 0) {
+            throw new ValidationException("from is negative");
+        }
+        Sort sortByDate = Sort.by(Sort.Direction.ASC, "id");
+        int pageIndex = from / size;
+        Pageable page = PageRequest.of(pageIndex, size, sortByDate);
+        return mapToItemWithBooking(repository.findByUserId(userId, page).toList());
     }
 
     @Override
@@ -84,7 +91,6 @@ public class ItemServiceImpl implements ItemService {
                 .orElseThrow(() -> new NotFoundException(String.format("Вещь с ID =%d не найден", itemId)));
     }
 
-    @Transactional
     @Override
     public ItemDto updateItem(long userId, ItemDto itemDto, long itemId) {
         validateUserId(userId);
@@ -102,21 +108,19 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.toDto(item);
     }
 
-    @Transactional
     @Override
-    public Item addNewItem(long userId, ItemDto itemDto) throws ValidationException {
-
+    public Item addNewItem(long userId, ItemDto itemDto) {
         if (itemDto.getAvailable() == null || !itemDto.getAvailable()) {
             throw new ValidationException("Вещь должна быть доступна");
         }
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User not found"));
-        Item item = itemMapper.toEntity(user, itemDto);
         validateUserId(userId);
-        return repository.save(item);
+
+        User user = userService.getById(userId);
+        Item itemForSave = itemMapper.toEntity(user, itemDto);
+
+        return repository.save(itemForSave);
     }
 
-    @Transactional
     @Override
     public void deleteItem(long userId, long itemId) {
         validateUserId(userId);
@@ -125,30 +129,29 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Comment addNewComment(long userId, Comment comment, long itemId) throws ValidationException {
-        List<Booking> bookings = bookingRepository.getBookingByUserIdAndFinishAfterNow(userId);
-        boolean userIsBooker = false;
-        for (Booking booking: bookings) {
-            if (booking.getItem().getId() == itemId) {
-                userIsBooker = true;
-                break;
-            }
-        }
-        if (userIsBooker) {
+    public Comment addNewComment(long userId, Comment comment, long itemId) {
+        List<Booking> bookings = bookingRepository.getBookingByBookerIdAndItemIdAndEndBeforeOrderByStartDesc(userId, itemId, LocalDateTime.now());
+        if (!bookings.isEmpty()) {
             comment.setItem(repository.findById(itemId).orElseThrow(() -> new NotFoundException("Item not found")));
-            comment.setAuthorName(userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found")).getName());
+            comment.setAuthorName(userService.getById(userId).getName());
             comment.setCreated(LocalDateTime.now());
             return commentRepository.save(comment);
         } else throw new ValidationException("Пользователь не брал в аренду вещь");
     }
 
     @Override
-    public List<ItemDto> getItemByQuery(String query) {
+    public List<ItemDto> getItemByQuery(String query, int from, int size) {
+        if (from < 0) {
+            throw new ValidationException("from is negative");
+        }
+        Sort sortByDate = Sort.by(Sort.Direction.ASC, "id");
+        int pageIndex = from / size;
+        Pageable page = PageRequest.of(pageIndex, size, sortByDate);
+
         if (query.isBlank()) {
             return new ArrayList<>();
         }
-
-        List<Item> userItems = repository.getItemByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(query, query);
+        List<Item> userItems = repository.getItemByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(query, query, page);
         for (int i = 0; i < userItems.size(); i++) {
             if (!userItems.get(i).getAvailable()) {
                 userItems.remove(i);
@@ -159,14 +162,12 @@ public class ItemServiceImpl implements ItemService {
 
     private void validateOwner(long userId, Item item) {
         if (userId != item.getUser().getId()) {
-            log.warn("Неправильный ID");
             throw new NotFoundException("Вы не являетесь владельцем.");
         }
     }
 
-    private void validateUserId(long userId) {
-        userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException(String.format("Пользователь с ID =%d не найден", userId)));
+    public void validateUserId(long userId) {
+        userService.getById(userId);
     }
 
     public List<ItemWithBooking> mapToItemWithBooking(Iterable<Item> items) {

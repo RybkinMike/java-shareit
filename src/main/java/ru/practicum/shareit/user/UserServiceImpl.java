@@ -3,11 +3,8 @@ package ru.practicum.shareit.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.shareit.exception.ItemAlreadyExistException;
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.exception.ValidationException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -22,20 +19,21 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User saveUser(User user) throws ItemAlreadyExistException {
+    public User saveUser(User user) {
         return repository.save(user);
     }
 
     @Transactional
     @Override
-    public User update(long userId, User user) throws ValidationException {
+    public User update(long userId, User user) {
         user.setId(userId);
-        Optional<User> userTemp = repository.findById(userId);
+        User userTemp = repository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(String.format("Пользователь с ID =%d не найден", userId)));
                     if (user.getName() == null) {
-                    user.setName(userTemp.get().getName());
+                    user.setName(userTemp.getName());
                 }
                 if (user.getEmail() == null) {
-                    user.setEmail(userTemp.get().getEmail());
+                    user.setEmail(userTemp.getEmail());
                 }
         return repository.save(user);
     }

@@ -11,7 +11,7 @@ public interface ItemService {
     @Transactional
     Item addNewItem(long userId, ItemDto itemDto) throws ValidationException;
 
-    Collection<ItemWithBooking> getItems(long userId);
+    Collection<ItemWithBooking> getItems(long userId, int from, int size) throws ValidationException;
 
     ItemWithBooking getItemById(long userId, long itemId);
 
@@ -26,5 +26,5 @@ public interface ItemService {
     @Transactional
     Comment addNewComment(long userId, Comment comment, long itemId) throws ValidationException;
 
-    List<ItemDto> getItemByQuery(String query);
+    List<ItemDto> getItemByQuery(String query, int from, int size) throws ValidationException;
 }
