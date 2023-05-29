@@ -24,7 +24,7 @@ class ItemControllerTest {
     ItemController itemController;
 
     @Test
-    void getTest() throws ValidationException {
+    void getTest() {
         ItemWithBooking itemWithBooking = new ItemWithBooking();
         List<ItemWithBooking> itemWithBookings = List.of(itemWithBooking);
         when(itemService.getItems(1L, 1, 10)).thenReturn(itemWithBookings);
@@ -46,7 +46,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void testGetByIdTest() throws ValidationException {
+    void testGetByIdTest() {
         ItemDto itemDto = new ItemDto();
         List<ItemDto> itemDtos = List.of(itemDto);
         when(itemService.getItemByQuery("good", 1, 10)).thenReturn(itemDtos);
@@ -57,7 +57,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void addTest() throws ValidationException {
+    void addTest() {
 
         Item item = new Item();
         when(itemService.addNewItem(1L, itemMapper.toDto(item))).thenReturn(item);
@@ -68,7 +68,7 @@ class ItemControllerTest {
     }
 
     @Test
-    void addCommentTest() throws ValidationException {
+    void addCommentTest() {
         Comment comment = new Comment();
         when(itemService.addNewComment(1L, comment, 1L)).thenReturn(comment);
 

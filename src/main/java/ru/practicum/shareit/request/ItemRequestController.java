@@ -37,13 +37,13 @@ public class ItemRequestController {
     @GetMapping("/all")
     public List<ItemRequest> getAllItemRequest(@RequestHeader(USERID) long userId,
                                                @RequestParam(value = "from", defaultValue = "0")@Min(0) int from,
-                                               @RequestParam(value = "size", defaultValue = "10")@Min(1) @Max(100) int size) throws ValidationException {
+                                               @RequestParam(value = "size", defaultValue = "10")@Min(1) @Max(100) int size) {
         return itemRequestService.getAllRequest(userId, from, size);
     }
 
     @PostMapping
     public ItemRequest add(@RequestHeader(USERID) long userId,
-                    @RequestBody @Valid ItemRequestDto requestDto) throws ValidationException {
+                    @RequestBody @Valid ItemRequestDto requestDto) {
         return itemRequestService.addNewItemRequest(userId, requestDto);
     }
 }

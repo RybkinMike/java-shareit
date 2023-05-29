@@ -27,7 +27,7 @@ public class ItemController {
     @GetMapping
     public Collection<ItemWithBooking> get(@RequestHeader(USERID) long userId,
                                            @RequestParam(value = "from", defaultValue = "0")@Min(0) int from,
-                                           @RequestParam(value = "size", defaultValue = "10")@Min(1) @Max(100) int size) throws ValidationException {
+                                           @RequestParam(value = "size", defaultValue = "10")@Min(1) @Max(100) int size) {
         return itemService.getItems(userId, from, size);
     }
 
@@ -40,21 +40,21 @@ public class ItemController {
     @GetMapping("/search")
     public List<ItemDto> getById(@RequestParam(name = "text") String query,
                                  @RequestParam(value = "from", defaultValue = "0")@Min(0) int from,
-                                 @RequestParam(value = "size", defaultValue = "10")@Min(1) @Max(100) int size) throws ValidationException {
+                                 @RequestParam(value = "size", defaultValue = "10")@Min(1) @Max(100) int size) {
 
         return itemService.getItemByQuery(query, from, size);
     }
 
     @PostMapping
     public Item add(@RequestHeader(USERID) long userId,
-                    @RequestBody @Valid ItemDto itemDto) throws ValidationException {
+                    @RequestBody @Valid ItemDto itemDto) {
         return itemService.addNewItem(userId, itemDto);
     }
 
     @PostMapping("/{itemId}/comment")
     public Comment addComment(@RequestHeader(USERID) long userId,
                            @RequestBody @Valid Comment comment,
-                           @PathVariable long itemId) throws ValidationException {
+                           @PathVariable long itemId) {
         return itemService.addNewComment(userId, comment, itemId);
     }
 

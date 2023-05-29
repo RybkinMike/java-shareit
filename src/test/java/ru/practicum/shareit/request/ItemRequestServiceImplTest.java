@@ -36,7 +36,7 @@ class ItemRequestServiceImplTest {
     private ItemRequestServiceImpl itemRequestService;
 
     @Test
-    void addNewItemRequestTest() throws ValidationException {
+    void addNewItemRequestTest() {
         ItemRequestDto requestDto = new ItemRequestDto();
         ItemRequest request = requestMapper.toEntity(1L, requestDto, null);
         request.toString();
@@ -62,7 +62,7 @@ class ItemRequestServiceImplTest {
     }
 
     @Test
-    void getAllRequestTest() throws ValidationException {
+    void getAllRequestTest() {
         ItemRequest itemRequest = new ItemRequest();
         List<ItemRequest> itemRequests = new ArrayList<>();
         itemRequests.add(itemRequest);

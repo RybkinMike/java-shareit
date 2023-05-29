@@ -25,7 +25,6 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -39,14 +38,12 @@ public class ItemServiceImpl implements ItemService {
 
     CommentRepository commentRepository;
 
-    ItemRequestService itemRequestService;
-
     ItemMapper itemMapper = new ItemMapper();
 
     BookingMapper bookingMapper = new BookingMapper();
 
     @Override
-    public Collection<ItemWithBooking> getItems(long userId, int from, int size) throws ValidationException {
+    public Collection<ItemWithBooking> getItems(long userId, int from, int size) {
         validateUserId(userId);
         if (from < 0) {
             throw new ValidationException("from is negative");
@@ -96,7 +93,6 @@ public class ItemServiceImpl implements ItemService {
                 .orElseThrow(() -> new NotFoundException(String.format("Вещь с ID =%d не найден", itemId)));
     }
 
-    @Transactional
     @Override
     public ItemDto updateItem(long userId, ItemDto itemDto, long itemId) {
         validateUserId(userId);
@@ -114,9 +110,8 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.toDto(item);
     }
 
-    @Transactional
     @Override
-    public Item addNewItem(long userId, ItemDto itemDto) throws ValidationException {
+    public Item addNewItem(long userId, ItemDto itemDto) {
         if (itemDto.getAvailable() == null || !itemDto.getAvailable()) {
             throw new ValidationException("Вещь должна быть доступна");
         }
@@ -128,7 +123,6 @@ public class ItemServiceImpl implements ItemService {
         return repository.save(itemForSave);
     }
 
-    @Transactional
     @Override
     public void deleteItem(long userId, long itemId) {
         validateUserId(userId);
@@ -137,7 +131,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Comment addNewComment(long userId, Comment comment, long itemId) throws ValidationException {
+    public Comment addNewComment(long userId, Comment comment, long itemId) {
         List<Booking> bookings = bookingRepository.getBookingByBookerIdAndItemIdAndEndBeforeOrderByStartDesc(userId, itemId, LocalDateTime.now());
         if (!bookings.isEmpty()) {
             comment.setItem(repository.findById(itemId).orElseThrow(() -> new NotFoundException("Item not found")));
@@ -148,7 +142,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> getItemByQuery(String query, int from, int size) throws ValidationException {
+    public List<ItemDto> getItemByQuery(String query, int from, int size) {
         if (from < 0) {
             throw new ValidationException("from is negative");
         }

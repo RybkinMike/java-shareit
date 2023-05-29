@@ -19,7 +19,6 @@ import ru.practicum.shareit.user.UserService;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -45,7 +44,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Booking> getByUserId(long userId, String state, int from, int size) throws ValidationException {
+    public List<Booking> getByUserId(long userId, String state, int from, int size) {
         userService.getById(userId);
         if (from < 0) {
             throw new ValidationException("from is negative");
@@ -70,7 +69,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<Booking> getByOwnerId(long userId, String state, int from, int size) throws ValidationException {
+    public List<Booking> getByOwnerId(long userId, String state, int from, int size) {
         userService.getById(userId);
         if (from < 0) {
             throw new ValidationException("from is negative");
@@ -96,7 +95,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Transactional
     @Override
-    public Booking approveBooking(long userId, long bookingId, boolean approve) throws ValidationException {
+    public Booking approveBooking(long userId, long bookingId, boolean approve) {
         userService.getById(userId);
         Booking  booking = repository.findById(bookingId).orElseThrow(() -> new NotFoundException(String.format("Бронь с ID =%d не найден", bookingId)));
         if (booking.getStatus().equals("APPROVED")) {
@@ -117,7 +116,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Transactional
     @Override
-    public Booking addNewBooking(long userId, BookingDto bookingDto) throws ValidationException {
+    public Booking addNewBooking(long userId, BookingDto bookingDto) {
         if (!bookingDto.getStart().isBefore(bookingDto.getEnd())) {
             throw new ValidationException("Окончание бронирования должно быть после его начала");
         }

@@ -25,7 +25,7 @@ class ItemRequestServiceImplTest2 {
     private final ItemRequestService service;
 
     @Test
-    void getAllRequestTest() throws ValidationException {
+    void getAllRequestTest() {
         User user = new User();
         user.setEmail("1@1.ru");
         user.setName("1");

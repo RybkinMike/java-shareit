@@ -25,7 +25,7 @@ class ItemServiceImplTest2 {
     private final UserService userService;
 
     @Test
-    void getItemsTest() throws ValidationException {
+    void getItemsTest() {
         User user = new User();
         user.setEmail("1@1.ru");
         user.setName("1");

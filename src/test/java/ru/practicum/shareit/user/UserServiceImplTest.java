@@ -46,7 +46,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void updateTest() throws ValidationException {
+    void updateTest() {
         User userToUpdate = new User();
         userToUpdate.setId(1L);
 //        userToUpdate.setName("UserToUpdate");
@@ -64,7 +64,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void updateShouldThrowExceptionTest() throws ValidationException {
+    void updateShouldThrowExceptionTest() {
         User userToUpdate = new User();
         userToUpdate.setId(1L);
         userToUpdate.setName("UserToUpdate");

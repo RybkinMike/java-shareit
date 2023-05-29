@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.exception.ValidationException;
 import java.util.List;
 
 @Service
@@ -26,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User update(long userId, User user) throws ValidationException {
+    public User update(long userId, User user) {
         user.setId(userId);
         User userTemp = repository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format("Пользователь с ID =%d не найден", userId)));

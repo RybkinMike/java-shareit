@@ -76,7 +76,7 @@ class BookingServiceImplTest {
     }
 
     @Test
-    void getByUserIdTestAndThrowExceptionIfStateIsWrong() throws ValidationException {
+    void getByUserIdTestAndThrowExceptionIfStateIsWrong() {
         Booking booking = new Booking();
         List<Booking> bookings = new ArrayList<>();
         bookings.add(booking);
@@ -107,7 +107,7 @@ class BookingServiceImplTest {
     }
 
     @Test
-    void getByOwnerIdTestAndThrowExceptionIfStateIsWrong() throws ValidationException {
+    void getByOwnerIdTestAndThrowExceptionIfStateIsWrong() {
         Booking booking = new Booking();
         List<Booking> bookings = new ArrayList<>();
         bookings.add(booking);
@@ -138,7 +138,7 @@ class BookingServiceImplTest {
     }
 
     @Test
-    void approveBookingTestApproved() throws ValidationException {
+    void approveBookingTestApproved() {
         Booking booking = new Booking();
         Item item = new Item();
         User user = new User();
@@ -158,7 +158,7 @@ class BookingServiceImplTest {
     }
 
     @Test
-    void approveBookingTestRejected() throws ValidationException {
+    void approveBookingTestRejected() {
         Booking booking = new Booking();
         Item item = new Item();
         User user = new User();
@@ -178,7 +178,7 @@ class BookingServiceImplTest {
     }
 
     @Test
-    void approveBookingTestShouldThrowNotFoundException() throws ValidationException {
+    void approveBookingTestShouldThrowNotFoundException() {
         Booking booking = new Booking();
         Item item = new Item();
         User user = new User();
@@ -195,7 +195,7 @@ class BookingServiceImplTest {
     }
 
     @Test
-    void approveBookingTestShouldThrowValidationException() throws ValidationException {
+    void approveBookingTestShouldThrowValidationException() {
         Booking booking = new Booking();
         Item item = new Item();
         User user = new User();
@@ -212,7 +212,7 @@ class BookingServiceImplTest {
     }
 
     @Test
-    void addNewBookingTest() throws ValidationException {
+    void addNewBookingTest() {
         BookingDto bookingDto = new BookingDto();
         bookingDto.setStart(LocalDateTime.of(2023, 07, 07, 07, 07));
         bookingDto.setEnd(LocalDateTime.of(2023, 07, 8, 07, 07));
@@ -237,7 +237,7 @@ class BookingServiceImplTest {
     }
 
     @Test
-    void addNewBookingTestShouldThrowValidationException() throws ValidationException {
+    void addNewBookingTestShouldThrowValidationException() {
         BookingDto bookingDto = new BookingDto();
         bookingDto.setStart(LocalDateTime.of(2023, 07, 07, 07, 07));
         bookingDto.setEnd(LocalDateTime.of(2023, 06, 8, 07, 07));
@@ -260,7 +260,7 @@ class BookingServiceImplTest {
     }
 
     @Test
-    void addNewBookingTestShouldThrowNotFoundException() throws ValidationException {
+    void addNewBookingTestShouldThrowNotFoundException() {
         BookingDto bookingDto = new BookingDto();
         bookingDto.setStart(LocalDateTime.of(2023, 07, 07, 07, 07));
         bookingDto.setEnd(LocalDateTime.of(2023, 07, 8, 07, 07));
@@ -285,7 +285,7 @@ class BookingServiceImplTest {
     }
 
     @Test
-    void addNewBookingTestShouldThrowValidationExceptionItemIsNotAvailable() throws ValidationException {
+    void addNewBookingTestShouldThrowValidationExceptionItemIsNotAvailable() {
         BookingDto bookingDto = new BookingDto();
         bookingDto.setStart(LocalDateTime.of(2023, 07, 07, 07, 07));
         bookingDto.setEnd(LocalDateTime.of(2023, 07, 8, 07, 07));

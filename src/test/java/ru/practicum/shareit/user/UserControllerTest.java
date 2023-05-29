@@ -29,7 +29,7 @@ class UserControllerTest {
     }
 
     @Test
-    void saveNewUserTest() throws ValidationException {
+    void saveNewUserTest() {
         User user = new User();
         when(userService.saveUser(user)).thenReturn(user);
 
@@ -39,7 +39,7 @@ class UserControllerTest {
     }
 
     @Test
-    void updateTest() throws ValidationException {
+    void updateTest() {
         User user = new User();
         user.setId(1L);
         when(userService.update(1L, user)).thenReturn(user);

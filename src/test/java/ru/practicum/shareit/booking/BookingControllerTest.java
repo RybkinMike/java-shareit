@@ -36,7 +36,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void getByUserIdTest() throws ValidationException {
+    void getByUserIdTest() {
         List<Booking> bookings = List.of(new Booking());
         when(bookingService.getByUserId(1L, "ALL",1, 10)).thenReturn(bookings);
 
@@ -46,7 +46,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void getByOwnerIdTest() throws ValidationException {
+    void getByOwnerIdTest() {
         List<Booking> bookings = List.of(new Booking());
         when(bookingService.getByOwnerId(1L, "ALL",1, 10)).thenReturn(bookings);
 
@@ -56,7 +56,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void approveBookingTest() throws ValidationException {
+    void approveBookingTest() {
         Booking booking = new Booking();
         when(bookingService.approveBooking(anyLong(), anyLong(), anyBoolean())).thenReturn(booking);
 
@@ -66,7 +66,7 @@ class BookingControllerTest {
     }
 
     @Test
-    void addTest() throws ValidationException {
+    void addTest() {
         Booking booking = new Booking();
         Item item = new Item();
         User user = new User();

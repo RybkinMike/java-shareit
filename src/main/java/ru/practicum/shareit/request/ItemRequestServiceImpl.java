@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -33,7 +32,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     UserService userService;
 
     @Override
-    public ItemRequest addNewItemRequest(long userId, ItemRequestDto requestDto) throws ValidationException {
+    public ItemRequest addNewItemRequest(long userId, ItemRequestDto requestDto) {
         userService.getById(userId);
         ItemRequest request = requestMapper.toEntity(userId, requestDto, null);
         return repository.save(request);
@@ -58,7 +57,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     }
 
     @Override
-    public List<ItemRequest> getAllRequest(long userId, long from, long size) throws ValidationException {
+    public List<ItemRequest> getAllRequest(long userId, long from, long size) {
         if (from < 0) {
             throw new ValidationException("from is negative");
         }

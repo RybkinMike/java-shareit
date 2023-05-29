@@ -46,7 +46,7 @@ class ItemServiceImplTest {
     private ItemServiceImpl itemService;
 
     @Test
-    void getItemsTest() throws ValidationException {
+    void getItemsTest() {
         Item item1 = new Item();
         Item item2 = new Item();
         item1.setId(1L);
@@ -76,13 +76,13 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void getItemsShouldThrowExceptionTest() throws ValidationException {
+    void getItemsShouldThrowExceptionTest() {
         assertThrows(ValidationException.class,
                 () -> itemService.getItems(1L, -1, 10));
     }
 
     @Test
-    void getItemsUserNotValidTest() throws ValidationException {
+    void getItemsUserNotValidTest() {
 
         when(userService.getById(1L)).thenThrow(NotFoundException.class);
 
@@ -176,7 +176,7 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void addNewItemTest() throws ValidationException {
+    void addNewItemTest() {
         ItemDto itemDto = new ItemDto();
         itemDto.setAvailable(true);
         User user = new User();
@@ -191,7 +191,7 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void addNewItemTestShouldThrowException() throws ValidationException {
+    void addNewItemTestShouldThrowException() {
         ItemDto itemDto = new ItemDto();
         User user = new User();
         user.setId(1L);
@@ -233,7 +233,7 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void addNewCommentTest() throws ValidationException {
+    void addNewCommentTest() {
         Comment comment = new Comment();
         comment.toString();
         User user = new User();
@@ -256,7 +256,7 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void addNewCommentTestShouldThrowValidationException() throws ValidationException {
+    void addNewCommentTestShouldThrowValidationException() {
         Comment comment = new Comment();
         User user = new User();
         user.setName("USER");
@@ -274,7 +274,7 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void addNewCommentTestShouldThrowNotFoundException() throws ValidationException {
+    void addNewCommentTestShouldThrowNotFoundException() {
         Comment comment = new Comment();
         User user = new User();
         user.setName("USER");
@@ -293,7 +293,7 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void getItemByQueryTest() throws ValidationException {
+    void getItemByQueryTest() {
         Item item = new Item();
         item.setAvailable(true);
         item.setName("Покойник");
@@ -310,7 +310,7 @@ class ItemServiceImplTest {
     }
 
     @Test
-    void getItemByQueryTestShouldThrowException() throws ValidationException {
+    void getItemByQueryTestShouldThrowException() {
         Item item = new Item();
         item.setAvailable(true);
         item.setName("Покойник");

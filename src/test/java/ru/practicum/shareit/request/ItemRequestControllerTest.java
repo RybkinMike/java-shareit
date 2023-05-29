@@ -48,7 +48,7 @@ class ItemRequestControllerTest {
     }
 
     @Test
-    void getAllItemRequestTest() throws ValidationException {
+    void getAllItemRequestTest() {
         ItemRequest itemRequest = new ItemRequest();
         List<ItemRequest> itemRequests = new ArrayList<>();
         itemRequests.add(itemRequest);
@@ -60,7 +60,7 @@ class ItemRequestControllerTest {
     }
 
     @Test
-    void addTest() throws ValidationException {
+    void addTest() {
         ItemRequestDto itemRequestDto = new ItemRequestDto();
         Item item = new Item();
         List<Item> items = List.of(item);

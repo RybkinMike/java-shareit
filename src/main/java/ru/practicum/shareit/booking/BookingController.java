@@ -31,7 +31,7 @@ public class BookingController {
     public List<Booking> getByUserId(@RequestHeader(USERID) long userId,
                                      @RequestParam(defaultValue = "ALL") String state,
                                      @RequestParam(value = "from", defaultValue = "0")@Min(0) int from,
-                                     @RequestParam(value = "size", defaultValue = "10")@Min(1) @Max(100) int size) throws ValidationException {
+                                     @RequestParam(value = "size", defaultValue = "10")@Min(1) @Max(100) int size) {
         return bookingService.getByUserId(userId, state, from, size);
     }
 
@@ -39,20 +39,20 @@ public class BookingController {
     public List<Booking> getByOwnerId(@RequestHeader(USERID) long userId,
                                       @RequestParam(defaultValue = "ALL") String state,
                                       @RequestParam(value = "from", defaultValue = "0")@Min(0) int from,
-                                      @RequestParam(value = "size", defaultValue = "10")@Min(1) @Max(100) int size) throws ValidationException {
+                                      @RequestParam(value = "size", defaultValue = "10")@Min(1) @Max(100) int size) {
         return bookingService.getByOwnerId(userId, state, from, size);
     }
 
     @PatchMapping("/{bookingId}")
     public Booking approveBooking(@RequestHeader(USERID) long userId,
                                   @PathVariable long bookingId,
-                                  @RequestParam boolean approved) throws ValidationException {
+                                  @RequestParam boolean approved) {
         return bookingService.approveBooking(userId, bookingId, approved);
     }
 
     @PostMapping
     public Booking add(@RequestHeader(USERID) long userId,
-                       @RequestBody @Valid BookingDto bookingDto) throws ValidationException {
+                       @RequestBody @Valid BookingDto bookingDto) {
         return bookingService.addNewBooking(userId, bookingDto);
     }
 }
